@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Tag</th>
+				<th>Title</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="agent : ${agentList}">
+				<td th:text="${agent.tag}"></td>
+				<td th:text="${agent.title}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>
