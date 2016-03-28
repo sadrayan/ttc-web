@@ -3,9 +3,9 @@ package org.model;
 public class Agent {
 	
 
-	private String tag;
-	private String title;
-	private String regionTitle;
+	public String tag;
+	public String title;
+	public String regionTitle;
 	
 	
 	public String getTag() {
