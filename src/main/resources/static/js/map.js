@@ -51,12 +51,14 @@ var infowindow = null;
 
     var date = new Date(parseFloat(location.prediction.epochTime));
 
+     var predictionTime = moment(date).format('hh:mm:ss a');
+
     var contentString = '<div id="content">'+
          '<div id="siteNotice">'+
          '</div>'+
-         '<h4 id="firstHeading" class="firstHeading">'+ location.prediction.routeTitle +' </h4>'+
+         '<h4 id="firstHeading" class="firstHeading">'+ location.prediction.stopTitle +' </h4>'+
          '<div id="bodyContent">'+
-         'Arrival: ' +  date.getHours() + ' : ' + date.getMinutes() +
+         'Arrival: ' +  predictionTime +
          '</div>'+
          '</div>';
 
