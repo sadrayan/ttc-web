@@ -4,10 +4,7 @@ import org.model.Agent;
 import org.model.Direction;
 import org.model.Route;
 import org.model.Stop;
-import org.service.xml.AgentHandler;
-import org.service.xml.NextBusAdapter;
-import org.service.xml.RouteHandler;
-import org.service.xml.StopHandler;
+import org.service.xml.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,17 @@ public class NextBusService {
 	private final String agentURL = "http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList";
 	private String routeListURL = "http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=<agencyTag>";
 	private String stopListURL = "http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=<agencyTag>&r=<routeTag>";
+//	private String preditionURL = "http://webservices.nextbus.com/service/publicXMLFeed?command=" +
+//			"predictions&a=<agencyTag>&" +
+//			"stopId=<stopId>&" +
+//			"routeTag=<routeTag>&" +
+//			"useShortTitles=true";
 
+	private String predictionURL = "http://webservices.nextbus.com/service/publicXMLFeed?command=predictions" +
+			"&a=<agencyTag>" +
+			"&r=<routeTag>" +
+			"&s=<stopTag>" +
+			"&useShortTitles=true";
 	
 	public NextBusService() {
 
@@ -79,9 +86,6 @@ public class NextBusService {
 			logger.info(direction.toString());
 		}
 
-
-
-
 		return stopList;
 	}
 
@@ -107,14 +111,42 @@ public class NextBusService {
 		}
 
 		for (Direction direction : directionList) {
-			logger.info(direction.toString());
-			for (Stop stop : direction.stopList)
-				logger.info(stop.toString());
+			//logger.info(direction.toString());
+			for (Stop stop : direction.stopList){
+				//logger.info(stop.toString());
+			}
 		}
 
 		return directionList;
 
+	}
 
+
+	public List <Stop> getRoutePredictionList (String agencyTag, String routeTag, String directionTag) {
+
+		PredictionHandler predictionHandler = new PredictionHandler();
+		List <Direction> directionList = getRouteDirectList(agencyTag, routeTag);
+		List<Stop> stopList = new ArrayList<>();
+
+		logger.info("Direction list size: " + directionList.size());
+
+		for (Direction direction : directionList) {
+
+			if (direction.tag.equalsIgnoreCase(directionTag)) {
+				stopList = direction.stopList;
+				logger.info("Direction stop list size: " + stopList.size());
+				for (Stop stop : stopList) {
+					//logger.info(stop.toString());
+					nextBusAdapter.parse(predictionHandler, predictionURL.replace("<agencyTag>", agencyTag)
+							.replace("<stopTag>", stop.getTag())
+							.replace("<routeTag>", routeTag));
+
+					//logger.info(predictionHandler.getPrediction().toString());
+					stop.setPrediction (predictionHandler.getPrediction());
+				}
+			}
+		}
+		return stopList;
 	}
 
 

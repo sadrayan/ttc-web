@@ -1,15 +1,19 @@
 package org.model;
 
+import org.service.xml.PredictionHandler;
+
 public class Stop {
 
 //    <route tag="192" title="192-Airport Rocket" color="ff0000" oppositeColor="ffffff" latMin="43.6303899" latMax="43.6859399" lonMin="-79.62016" lonMax="-79.53566">
 //      <stop tag="3169" title="Pearson Airport Terminal 3 (Arrivals Level Columns C8-C12)" lat="43.6859399" lon="-79.62016" stopId="14278"/>
 
-	public String stopId;
+
+    public String stopId;
 	public String tag;
 	public String title;
 	public String lat;
 	public String lon;
+    private PredictionHandler.Prediction prediction;
 
     public String getStopId() {
         return stopId;
@@ -56,16 +60,25 @@ public class Stop {
         return this;
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Stop{" + "stopId='" + stopId + ", tag='" + tag +
-                ", title='" + title + ", lat='" + lat +  ", lon='" + lon + '}';
+    public void setPrediction(PredictionHandler.Prediction prediction) {
+        this.prediction = prediction;
     }
 
 
 
+    public PredictionHandler.Prediction getPrediction() {
+        return prediction;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Stop{" +
+                "stopId='" + stopId + '\'' +
+                ", tag='" + tag + '\'' +
+                ", title='" + title + '\'' +
+                ", lat='" + lat + '\'' +
+                ", lon='" + lon + '\'' +
+                ", prediction=" + prediction +
+                '}';
+    }
 }

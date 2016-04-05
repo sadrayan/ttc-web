@@ -1,5 +1,7 @@
 package org.model;
 
+import org.service.xml.PredictionHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Direction {
     public List<String> directionStopList = new ArrayList<>();
 
     public List <Stop> stopList = new ArrayList<>();
+    public List<PredictionHandler.Prediction> predictionList;
 
     @Override
     public String toString() {

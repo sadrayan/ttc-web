@@ -51,12 +51,22 @@ public class TTCController {
 		return stopList;
 	}
 
-    @RequestMapping (value = "/directionStopList")
+    @RequestMapping (value = "/directionList")
 	List <Direction> getDirectionStopist (@RequestParam(value="agentTag") String agentTag,
                                           @RequestParam(value="routeTag") String routeTag) {
 		List <Direction> directionList = nextBusService.getRouteDirectList(agentTag, routeTag);
 		return directionList;
 	}
+
+	@RequestMapping (value = "/directionStopList")
+	List <Stop> getDirectionStopist (@RequestParam(value="agentTag") String agentTag,
+                                     @RequestParam(value="routeTag") String routeTag,
+									 @RequestParam(value = "directionTag") String directionTag) {
+		List <Stop> stopnList = nextBusService.getRoutePredictionList(agentTag, routeTag, directionTag);
+		return stopnList;
+	}
+
+
 
 
 	@RequestMapping (value = "/test")

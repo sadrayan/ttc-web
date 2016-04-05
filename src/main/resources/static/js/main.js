@@ -32,7 +32,7 @@ $("#route").change(function() {
         routeTag: $( this ).val(),
     };
 
-    $.getJSON("/directionStopList/", data, function(result) {
+    $.getJSON("/directionList/", data, function(result) {
         $("#direction").empty();
         $("#direction").append($("<option>").val(0).text("Your Path"));
         $.each(result, function(i, direction) {
@@ -48,16 +48,18 @@ $("#direction").change(function() {
    var data = {
         agentTag: $("#agent").val(),
         routeTag: $("#route").val(),
+        directionTag: $( this ).val(),
     };
 
     $.getJSON("/directionStopList/", data, function(result) {
 
-        $.each(result, function(i, direction) {
-            console.log(direction);
-            if (direction.tag == $("#direction").val()) {
-                updateMap(direction.stopList)
-            }
-        });
+        updateMap(result);
+//        $.each(result, function(i, direction) {
+//            console.log(direction);
+//            if (direction.tag == $("#direction").val()) {
+//                updateMap(direction.stopList)
+//            }
+//        });
 
     });
 });

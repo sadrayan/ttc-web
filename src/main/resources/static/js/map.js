@@ -1,5 +1,6 @@
 var map;
 var markers = [];
+var infowindow = null;
 
 
 //43.67023	-79.38676
@@ -11,14 +12,18 @@ var markers = [];
 
         if (stop.lon != null && stop.lat != null) {
             var markerLoc = { lat: parseFloat(stop.lat), lng: parseFloat(stop.lon) };
-            console.log (markerLoc);
-            addMarker(markerLoc);
+            if ( stop.prediction != null){
+                markerLoc.prediction = stop.prediction;
+                console.log (markerLoc);
+                addMarker(markerLoc);
+            }
+
         }
     }
 
     //TODO: think twice
     map.panTo(markers[0].getPosition());
-    map.setZoom(12);
+    map.setZoom(14);
   }
 
   function initMap() {
@@ -28,6 +33,8 @@ var markers = [];
       center: toronto,
       mapTypeId: google.maps.MapTypeId.TERRAIN
     });
+
+    infowindow = new google.maps.InfoWindow();
 
 //    if (navigator.geolocation) {
 //         navigator.geolocation.getCurrentPosition(function (position) {
@@ -41,31 +48,29 @@ var markers = [];
 
   // Adds a marker to the map and push to the array.
   function addMarker(location) {
-//    var marker = new google.maps.Marker({
-//      position: location,
-//      map: map
-//    });
+
+    var date = new Date(parseFloat(location.prediction.epochTime));
 
     var contentString = '<div id="content">'+
          '<div id="siteNotice">'+
          '</div>'+
-         '<h1 id="firstHeading" class="firstHeading">TTC </h1>'+
+         '<h4 id="firstHeading" class="firstHeading">'+ location.prediction.routeTitle +' </h4>'+
          '<div id="bodyContent">'+
-         'Predictions: ' +
+         'Arrival: ' +  date.getHours() + ' : ' + date.getMinutes() +
          '</div>'+
          '</div>';
 
-    var infowindow = new google.maps.InfoWindow({
-       content: contentString
-     });
+
+
 
     var marker = new google.maps.Marker({
        position: location,
        map: map,
-       title: 'TTC'
+       title: location.prediction.routeTitle
      });
 
     marker.addListener('click', function() {
+       infowindow.setContent(contentString);
        infowindow.open(map, marker);
     });
 
