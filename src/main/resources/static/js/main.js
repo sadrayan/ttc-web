@@ -1,16 +1,29 @@
-$( window ).load(function() {
+$( window ).ready(function() {
+    getAgentList ();
+});
 
+$( "#agent" ).change(function() {
+    getRouteList();
+});
+
+$("#route").change(function() {
+    getDirection ();
+});
+
+$("#direction").change(function() {
+    getDirectionStopList();
+});
+
+function getAgentList () {
   $.getJSON("/agentList/", function(result) {
       $.each(result, function(i, item) {
           //  console.log(item);
           $("#agent").append($("<option>").val(item.tag).text(item.title));
       });
   });
+}
 
-});
-
-
-$( "#agent" ).change(function() {
+function getRouteList () {
     var data = {
         agentTag: $("#agent").val(),
     };
@@ -23,13 +36,12 @@ $( "#agent" ).change(function() {
             $("#route").append($("<option>").val(item.tag).text(item.title));
         });
     });
-});
+}
 
-
-$("#route").change(function() {
+function getDirection () {
     var data = {
         agentTag: $("#agent").val(),
-        routeTag: $( this ).val(),
+        routeTag: $("#route").val(),
     };
 
     $.getJSON("/directionList/", data, function(result) {
@@ -42,27 +54,19 @@ $("#route").change(function() {
     });
 
     deleteMarkers();
-});
+}
 
-$("#direction").change(function() {
+function getDirectionStopList () {
    var data = {
         agentTag: $("#agent").val(),
         routeTag: $("#route").val(),
-        directionTag: $( this ).val(),
+        directionTag: $("#direction").val(),
     };
 
     $.getJSON("/directionStopList/", data, function(result) {
-
         updateMap(result);
-//        $.each(result, function(i, direction) {
-//            console.log(direction);
-//            if (direction.tag == $("#direction").val()) {
-//                updateMap(direction.stopList)
-//            }
-//        });
-
     });
-});
+}
 
 
 

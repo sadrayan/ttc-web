@@ -28,33 +28,34 @@ public class TTCController {
 	@RequestMapping (value = "/agentList")
 	List<Agent> getAgentList () {
 		logger.info("API-AGENT-START: " + System.currentTimeMillis());
-
 		List<Agent> agentList = nextBusService.getAgentList();
-
-		for (Agent agent : agentList)
-			System.out.println(agent.toString());
-
 		logger.info("API-AGENT-END: " + System.currentTimeMillis());
 		return agentList;
 	}
 
 	@RequestMapping (value = "/routeList")
 	List  <Route>  getRouteList (@RequestParam(value="agentTag") String agentTag) {
+		logger.info("API-ROUTE-START: " + System.currentTimeMillis());
 		List  <Route> routeList = nextBusService.getRouteList(agentTag);
+		logger.info("API-ROUTE-START: " + System.currentTimeMillis());
 		return routeList;
 	}
 
 	@RequestMapping (value = "/stopList")
 	List <Stop> getStopList (@RequestParam(value="agentTag") String agentTag,
 							 @RequestParam(value="routeTag") String routeTag) {
+		logger.info("API-STOP-START: " + System.currentTimeMillis());
 		List <Stop> stopList = nextBusService.getStopList(agentTag, routeTag);
+		logger.info("API-STOP-START: " + System.currentTimeMillis());
 		return stopList;
 	}
 
     @RequestMapping (value = "/directionList")
-	List <Direction> getDirectionStopist (@RequestParam(value="agentTag") String agentTag,
+	List <Direction> getDirectionist (@RequestParam(value="agentTag") String agentTag,
                                           @RequestParam(value="routeTag") String routeTag) {
+		logger.info("API-DIRECTION-STOP-START: " + System.currentTimeMillis());
 		List <Direction> directionList = nextBusService.getRouteDirectList(agentTag, routeTag);
+		logger.info("API-DIRECTION-STOP-START: " + System.currentTimeMillis());
 		return directionList;
 	}
 
@@ -65,23 +66,6 @@ public class TTCController {
 		List <Stop> stopnList = nextBusService.getRoutePredictionList(agentTag, routeTag, directionTag);
 		return stopnList;
 	}
-
-
-
-
-	@RequestMapping (value = "/test")
-	List  <Route>  test () {
-
-		List <Agent> agentList = nextBusService.getAgentList();
-		List <Route> routeList = nextBusService.getRouteList("60");
-		List <Stop> stopList = nextBusService.getStopList("ttc", "60");
-
-		return routeList;
-	}
-
-
-
-
 
 
 }
