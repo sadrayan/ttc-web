@@ -1,0 +1,12 @@
+mvn package
+sudo docker build -t nextbusmap .
+
+Run local
+docker run --name nextbusmap -p 80:8080 -d -t nextbusmap
+
+cf login
+cf ic login
+sudo docker tag nextbusmap registry.ng.bluemix.net/okapi/nextbusmap
+sudo docker push registry.ng.bluemix.net/okapi/nextbusmap
+
+From BlueMix portal, create new container with IP assigned.
