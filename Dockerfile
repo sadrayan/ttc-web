@@ -25,6 +25,6 @@ RUN ["mvn", "package"]
 #ADD target/nextbusmap-0.1.0.jar app.jar
 #RUN bash -c 'touch /app.jar'
 
-EXPOSE 80
+#EXPOSE 80
 
 ENTRYPOINT ["java", "-jar", "target/nextbusmap-0.1.0.jar"]
